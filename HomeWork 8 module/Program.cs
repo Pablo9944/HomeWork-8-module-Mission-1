@@ -13,8 +13,7 @@ namespace HomeWork_8_module
        static DirectoryInfo dI = new DirectoryInfo(Path);
        static void Main(string[] args)
         {
-            //Напишите программу, которая чистит нужную нам папку от файлов  и папок, которые не использовались более 30 минут
-            // Путь к удалению необходимой папки и файлов внутри
+            // В корне проекта мы имеем папку Delete, в которой есть 1) подпапки в которых файлы 2) и в самой папке файлы
             
 
             try
@@ -39,7 +38,8 @@ namespace HomeWork_8_module
         /// </summary>
         static void DeletDirectory(DirectoryInfo dI)
         {
-           
+                // Первым делом удаляем файлы из папки
+                
                 FileInfo[] fls = dI.GetFiles();
                 foreach (FileInfo f in fls)
                 {
@@ -47,10 +47,14 @@ namespace HomeWork_8_module
                     f.Delete();
                 }
 
+                //Получаем подпапки
+
                 DirectoryInfo[] dir = dI.GetDirectories();
 
                 foreach (DirectoryInfo e in dir)
                 {
+                    // Удаляем файлы в подпапке если они есть
+
                     FileInfo[] File = e.GetFiles();
                     foreach (FileInfo f in File)
                     {
@@ -58,12 +62,19 @@ namespace HomeWork_8_module
                         f.Delete();
                     }
 
+                   
+                    // Удаляем подпапку
 
                     e.Delete();
+
+                    // Если папка пуста то удаляем
                     if (dI.GetDirectories().Length == 0)
                     {
+                        
                         dI.Delete();
                     }
+
+                    // Удаляем рекурсивно
                     DeletDirectory(dI);
 
                 }
